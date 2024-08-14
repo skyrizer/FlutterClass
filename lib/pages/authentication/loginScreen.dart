@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutterclass/repository/auth_repo.dart';
+import 'package:flutterclass/pages/HomePage.dart';
+
 
 // example of import package
 import 'package:hexcolor/hexcolor.dart';
@@ -15,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // controller for input
   TextEditingController usernameController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
+
+  AuthRepository authRepository = AuthRepository();
 
 
   @override
@@ -85,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _logoImage(){
     return const Image(
-      image: ResizeImage(AssetImage('assets/logo.png'), width: 170),
+      image: ResizeImage(AssetImage('assets/wafir.jpg'), width: 170),
     );
   }
 
@@ -134,14 +139,32 @@ class _LoginScreenState extends State<LoginScreen> {
         width: 400.0,
         height: 55.0,
         child: ElevatedButton(
-          onPressed: () {
-            if (usernameController.text != "" && pwdController.text != "" ){
-              // authBloc.add(LoginButtonPressed(
-              //   email: usernameController.text,
-              //   password: pwdController.text,
-              // ));
+          onPressed: () async {
+            if (usernameController.text.isNotEmpty && pwdController.text.isNotEmpty) {
+              // Call the login method from authRepository instance
+              int value = await authRepository.login(
+                usernameController.text.trim(),
+                pwdController.text.trim(),
+              );
+
+              // Handle the result of the login attempt
+              if (value == 1) {
+                // Navigate to HomePage if login is successful
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              } else {
+                // Show error message or handle login failure
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Login failed. Please try again.')),
+                );
+              }
             } else {
-              // authBloc.add(EmptyField());
+              // Show error message for empty fields
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Please fill in all fields.')),
+              );
             }
           },
           style: ButtonStyle(

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:containsafe/repository/APIConstant.dart';
+import 'package:flutterclass/repository/APIConstants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,7 +16,7 @@ class AuthRepository{
         'password': password
       });
 
-      var response = await http.post(url,
+      var response = await http.post(Uri.parse("http://192.168.0.116:8000/api/login"),
           headers: {"Content-Type": "application/json"},
           body: body
       );
@@ -26,15 +26,15 @@ class AuthRepository{
         Map<String, dynamic> responseData = json.decode(response.body);
 
         // Extract the token from the response data
-        String token = responseData['token'];
-        int roleId = responseData["node_accesses"][0]["role_id"];
-        int userId = responseData["user"]["id"];
-
-        // Store the token using shared preferences
-        pref.setString("token", token);
-        pref.setInt("roleId", roleId);
-        pref.setInt("userId", userId);
-        pref.setString("email", email);
+        // String token = responseData['token'];
+        // int roleId = responseData["node_accesses"][0]["role_id"];
+        // int userId = responseData["user"]["id"];
+        //
+        // // Store the token using shared preferences
+        // pref.setString("token", token);
+        // pref.setInt("roleId", roleId);
+        // pref.setInt("userId", userId);
+        // pref.setString("email", email);
         return 1;
       }
 
@@ -42,42 +42,6 @@ class AuthRepository{
     } catch (e) {
       print(e.toString());
       return 2;
-    }
-  }
-
-  Future<bool> refreshToken() async{
-    var pref = await SharedPreferences.getInstance();
-    try{
-      var url = Uri.parse(APIConstant.RefreshURL);
-      String? email = pref.getString('email');
-      String? token = pref.getString('token');
-
-      if (email != null){
-        var header = {
-          "Content-Type": "application/json",
-          "email" : email,
-          'Authorization': "Bearer ${token}",
-        };
-
-        var response = await http.put(url, headers: header,);
-
-        if (response.statusCode == 200) {
-          print('New token received');
-          String data = response.body;
-          Map<String, dynamic> jsonData = json.decode(data);
-          String token = jsonData['token']; // Extracting the token value
-          print('Token: $token');
-          pref.setString("token", token); // Saving the token to preferences
-          return true;
-        } else {
-          return false;
-        }
-      }
-      return false;
-    } catch (e) {
-      print('error');
-      print(e.toString());
-      return false;
     }
   }
 
@@ -129,25 +93,6 @@ class AuthRepository{
     }
   }
 
-  Future<bool> sendEmail(String email) async{
-    try{
-      var url = Uri.parse(APIConstant.ForgotPasswordURL + "?email=" + email);
-      print(url.toString());
-      var response = await http.post(url);
-
-      if (response.statusCode == 200){
-        return true;
-      } else {
-        //   status code == 400
-        print('invalid email');
-      }
-      return false;
-    } catch (e){
-      print('error in send email for forgot password');
-      print(e.toString());
-      return false;
-    }
-  }
 
   Future<bool> logout() async{
     var pref = await SharedPreferences.getInstance();
