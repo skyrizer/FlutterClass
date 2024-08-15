@@ -16,7 +16,7 @@ class AuthRepository{
         'password': password
       });
 
-      var response = await http.post(Uri.parse("http://192.168.0.116:8000/api/login"),
+      var response = await http.post(url,
           headers: {"Content-Type": "application/json"},
           body: body
       );
@@ -45,53 +45,6 @@ class AuthRepository{
     }
   }
 
-  Future<int> register(String username, String name, String email,
-      String password, String confirmPassword, String phoneNumber, int roleId
-      ) async{
-    var pref = await SharedPreferences.getInstance();
-    try{
-
-      var url = Uri.parse(APIConstant.RegisterURL);
-
-      var body = json.encode({
-        "username": username,
-        "name": name,
-        "email": email,
-        "password": password,
-        "password_confirmation": confirmPassword,
-        "phone_number": phoneNumber,
-        "role_id": roleId
-      });
-
-      print(body.toString());
-      var response = await http.post(url,
-          headers: {"Content-Type": "application/json"},
-          body: body
-      );
-
-      if (response.statusCode == 200){
-        String data =  response.body;
-        pref.setString("token", data);
-        return 0;
-      }
-      else {
-        String data =  response.body;
-        if(data[0] == 'U'){
-          // username duplicated
-          return 1;
-        } else if (data[0] == 'E') {
-          // email duplicated
-          return 2;
-        }
-      }
-      return 3;
-
-    } catch (e) {
-      print('error in register');
-      print(e.toString());
-      return 3;
-    }
-  }
 
 
   Future<bool> logout() async{

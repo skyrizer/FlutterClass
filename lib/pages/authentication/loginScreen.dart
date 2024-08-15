@@ -1,11 +1,17 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutterclass/repository/auth_repo.dart';
 import 'package:flutterclass/pages/HomePage.dart';
+import 'package:http/http.dart' as http;
 
 
 // example of import package
 import 'package:hexcolor/hexcolor.dart';
+
+import '../../repository/APIConstants.dart';
+import '../user/viewUsers.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -152,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Navigate to HomePage if login is successful
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => ViewUsersScreen()),
                 );
               } else {
                 // Show error message or handle login failure
@@ -182,4 +188,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 }
