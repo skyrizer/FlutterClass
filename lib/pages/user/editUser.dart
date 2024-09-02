@@ -20,15 +20,16 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  //TextEditingController passwordController = TextEditingController();
   TextEditingController addressController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
+  //TextEditingController passwordConfirmationController = TextEditingController();
 
   UserRepository userRepository = UserRepository();
   int userId = 0;
 
   @override
   void initState() {
+    // this is the way to assign value to a variable from previous screen
     userId = widget.user.id;
     nameController.text = widget.user.name;
     emailController.text = widget.user.email;

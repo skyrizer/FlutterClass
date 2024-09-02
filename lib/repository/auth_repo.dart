@@ -3,11 +3,15 @@ import 'package:flutterclass/repository/APIConstants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class AuthRepository{
 
   Future<int> login(String email, String password) async {
+    // this is a local storage
     var pref = await SharedPreferences.getInstance();
     try {
+
+      //place your url here
       var url = Uri.parse(APIConstant.LoginURL);
 
       // to serialize the data Map to JSON
@@ -28,12 +32,13 @@ class AuthRepository{
         // Extract the token from the response data
         // String token = responseData['token'];
         // int roleId = responseData["node_accesses"][0]["role_id"];
-        // int userId = responseData["user"]["id"];
+        int userId = responseData["user"]["id"];
         //
         // // Store the token using shared preferences
         // pref.setString("token", token);
         // pref.setInt("roleId", roleId);
-        // pref.setInt("userId", userId);
+        pref.setInt("userId", userId);
+
         // pref.setString("email", email);
         return 1;
       }

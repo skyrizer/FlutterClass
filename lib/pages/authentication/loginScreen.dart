@@ -1,16 +1,9 @@
 
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutterclass/repository/auth_repo.dart';
-import 'package:flutterclass/pages/HomePage.dart';
-import 'package:http/http.dart' as http;
-
-
 // example of import package
 import 'package:hexcolor/hexcolor.dart';
-
-import '../../repository/APIConstants.dart';
 import '../user/viewUsers.dart';
 
 
@@ -18,13 +11,16 @@ class LoginScreen extends StatefulWidget {
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
+
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   // controller for input
   TextEditingController usernameController = TextEditingController();
   TextEditingController pwdController = TextEditingController();
 
+  // Define the repository here
   AuthRepository authRepository = AuthRepository();
 
 
@@ -40,22 +36,22 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                //  it will adjust the space on up and down
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _logoImage(),
-                  _logoText(),
-                  _usernameField(),
-                  const SizedBox(height: 10.0),
-                  _passwordField(),
-                  _forgotPassword(),
-                  _loginButton(),
-                  _signUpText(),
-                ],
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  //  it will adjust the space on up and down
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //_logoImage(),
+                    _logoText(),
+                    _usernameField(),
+                    const SizedBox(height: 10.0),
+                    _passwordField(),
+                    _forgotPassword(),
+                    _loginButton(),
+                    _signUpText(),
+                  ],
+                ),
               ),
-            ),
           ),
         ),
     );
@@ -90,15 +86,15 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _logoText(){
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text('Stay safe with us', style: Theme.of(context).textTheme.bodyLarge),
+      child: Text('My FYP', style: Theme.of(context).textTheme.bodyLarge),
     );
   }
 
-  Widget _logoImage(){
-    return const Image(
-      image: ResizeImage(AssetImage('assets/wafir.jpg'), width: 170),
-    );
-  }
+  // Widget _logoImage(){
+  //   return const Image(
+  //     image: ResizeImage(AssetImage('assets/wafir.jpg'), width: 170),
+  //   );
+  // }
 
   Widget _usernameField(){
     return TextFormField(
@@ -155,11 +151,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Handle the result of the login attempt
               if (value == 1) {
-                // Navigate to HomePage if login is successful
+
+                // Navigate to other page if login is successful
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ViewUsersScreen()),
                 );
+
               } else {
                 // Show error message or handle login failure
                 ScaffoldMessenger.of(context).showSnackBar(

@@ -7,7 +7,7 @@ class APIConstant {
   //static const String URL = "${ipaddress}";
 
 
-  // auth module
+  // authentication module
   static String get LoginURL => "${APIConstant.ipaddress}login";
   static String get RegisterUserURL => "${APIConstant.ipaddress}registerUser";
   static String get LogoutURL => "${APIConstant.ipaddress}logout";

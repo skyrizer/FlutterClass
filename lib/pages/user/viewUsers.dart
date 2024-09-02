@@ -14,6 +14,8 @@ class ViewUsersScreen extends StatefulWidget {
 }
 
 class _ViewUsersScreenState extends State<ViewUsersScreen> {
+
+  // define list of user
   List<User> userList = [];
   bool _isLoading = true; // Add a loading indicator
 

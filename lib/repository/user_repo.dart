@@ -13,9 +13,11 @@ class UserRepository{
       String? token = pref.getString("token");
 
       var url = Uri.parse(APIConstant.GetUsersURL);
+
       var header = {
         "Content-Type": "application/json",
       };
+
       var response = await http.get(url, headers: header);
 
       if (response.statusCode == 200) {
